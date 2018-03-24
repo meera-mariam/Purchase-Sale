@@ -19,6 +19,10 @@ namespace Welgate_Organic_Projects
         String ID = "";
         protected void Page_Load(object sender, EventArgs e)
         {
+            GridView1.DataSource = null;
+            GridView1.DataBind();
+
+            GridView1.Visible = true;
 
 
             LoadSum();
@@ -51,7 +55,7 @@ namespace Welgate_Organic_Projects
         public void grid()
         {
             getcon();
-            string str = "Select Item_No, Pname,Size,Quantity,Price,Tax_Total,Sgst,Cgst,Date from Sale_Invoice_Tbl";
+            string str = "Select  Pname,Size,Quantity,Price,Tax_Total,Sgst,Cgst from Sale_Invoice_Tbl";
             cmd = new SqlCommand(str, con);
             cmd.ExecuteNonQuery();
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
@@ -155,6 +159,7 @@ namespace Welgate_Organic_Projects
 
         protected void btnsearch_Click(object sender, EventArgs e)
         {
+            LoadSum();
             getcon();
             String sel = "Select Size,Unit_Price,Sgst,Cgst,Tax_Amnt from product_details_tbl  where Pname='" + DropDownList1.SelectedItem.Text + "'";
             SqlCommand cmd = new SqlCommand(sel, con);
@@ -184,19 +189,23 @@ namespace Welgate_Organic_Projects
         {
             LoadSum();
             getcon();
+            
 
 
-            string ins = "insert into Sale_Invoice_Tbl(Bill_No,Pname,Size,Quantity,Price,Tax_Total,Sgst,Cgst,[Grand Total],Date)values('" + lblbillno.Text.Trim() + "','" + DropDownList1.SelectedItem.Text.Trim() + "','" + txtsize.Text.Trim() + "','" + txtqty.Text.Trim() + "','" + txtprice.Text.Trim() + "','" + txttax.Text.Trim() + "','" + txtsgst.Text.Trim() + "','" + txtcgst.Text.Trim() + "','" + txtnetamount.Text.Trim() + "','" + txtdate.Text.Trim() + "')";
+            string ins = "insert into Sale_Invoice_Tbl(Bill_No,Pname,Size,Quantity,Price,Tax_Total,Sgst,Cgst,Date)values('" + lblbillno.Text.Trim() + "','" + DropDownList1.SelectedItem.Text.Trim() + "','" + txtsize.Text.Trim() + "','" + txtqty.Text.Trim() + "','" + txtprice.Text.Trim() + "','" + txttax.Text.Trim() + "','" + txtsgst.Text.Trim() + "','" + txtcgst.Text.Trim() + "','" + txtdate.Text.Trim() + "')";
             SqlCommand cmd = new SqlCommand(ins, con);
             cmd.ExecuteNonQuery();
-            Response.Write("<script>alert('Data Added Successfully! :-)')</script>");
+            Response.Write("<script>alert('Item Added To List! :-)')</script>");
             String select = "select * from Sale_Invoice_Tbl";
             cmd = new SqlCommand(select, con);
             cmd.ExecuteNonQuery();
 
+          
+
+          
 
 
-            Response.Write("success");
+            //Response.Write("success");
             SqlDataAdapter adr = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             adr.Fill(dt);
@@ -217,7 +226,7 @@ namespace Welgate_Organic_Projects
 
             txtsgst.Text = "";
             txtcgst.Text = "";
-            txtnetamount.Text = "";
+           
 
             //Response.Write("<script LANGUAGE='Javascript'>alert('Saved Successfully')</script");
 
@@ -335,9 +344,32 @@ namespace Welgate_Organic_Projects
             cmd.ExecuteNonQuery();
 
 
-            //Response.Write("<script LANGUAGE='JavaScript' >alert('Data Deleted Successfully')</script>");
-            SqlDataAdapter adr = new SqlDataAdapter(cmd);
+
+
+            string billins = "insert into total_tbl(Total)values('" + txtnetamount.Text.Trim() + "')";
+            cmd = new SqlCommand(billins, con);
+            cmd.ExecuteNonQuery();
+             SqlDataAdapter adr = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
+
+            adr.Fill(dt);
+
+
+
+            //string ins1 = "insert into Sale_Bill_Rep(Bill_No,Pname,Size,Quantity,Price,Tax_Total,Sgst,Cgst,Date)values('" + lblbillno.Text.Trim() + "','" + DropDownList1.SelectedItem.Text.Trim() + "','" + txtsize.Text.Trim() + "','" + txtqty.Text.Trim() + "','" + txtprice.Text.Trim() + "','" + txttax.Text.Trim() + "','" + txtsgst.Text.Trim() + "','" + txtcgst.Text.Trim() + "','"+ txtdate.Text.Trim() + "')";
+            //cmd = new SqlCommand(ins1, con);
+            //cmd.ExecuteNonQuery();
+            //SqlDataAdapter adr2 = new SqlDataAdapter(cmd);
+            //DataTable dt2 = new DataTable();
+
+            //adr.Fill(dt);
+
+
+
+
+            //Response.Write("<script LANGUAGE='JavaScript' >alert('Data Deleted Successfully')</script>");
+            SqlDataAdapter adr1 = new SqlDataAdapter(cmd);
+            DataTable dt1 = new DataTable();
 
             adr.Fill(dt);
             //if (dt.Rows.Count > 0)
@@ -354,7 +386,7 @@ namespace Welgate_Organic_Projects
 
 
 
-            lblbillno.Text = "";
+           
             DropDownList1.SelectedItem.Text = "";
             txtsize.Text = "";
             txtqty.Text = "";
@@ -364,7 +396,7 @@ namespace Welgate_Organic_Projects
 
             txtsgst.Text = "";
             txtcgst.Text = "";
-            txtnetamount.Text = "";
+           
             txtdate.Text = "";
             
         }

@@ -1,9 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Employee_Page.Master" AutoEventWireup="true" CodeBehind="New Sale Bill.aspx.cs" Inherits="Welgate_Organic_Projects.New_Sale_Bill" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Employee_Page.Master" AutoEventWireup="true" CodeBehind="demo sale.aspx.cs" Inherits="Welgate_Organic_Projects.demo_sale" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder2" runat="server">
-
-  <%--  <p>
+     <p>
         <br />
     </p>
     <p>
@@ -91,7 +90,7 @@
     <p>
     </p>
     <p>
-    </p>--%>
+    </p>
      <div class="row">
           <div class="col-lg-12">
             <section class="panel">
@@ -146,7 +145,7 @@
                       </div>--%>
                    <div class="col-lg-6">
                   <div class="form-group">
-                    <label for="exampleInputPassword1" style="font-family: 'Times New Roman', Times, serif; color: #333333; font-style: italic; text-decoration: blink;">GRAND TOTAL- ₹</label>
+                    <label for="exampleInputPassword1" style="font-family: 'Times New Roman', Times, serif; color: #000000">NET AMOUNT</label>
                       <asp:TextBox ID="txtnetamount" CssClass="form-control" placeholder="NET AMOUNT" runat="server" ></asp:TextBox>
                        </div>
                       </div>
@@ -188,8 +187,13 @@
                       <asp:TextBox ID="Txttotal" CssClass="form-control" placeholder="Date" runat="server" ></asp:TextBox>
                        </div>
                       </div>--%>
-                           <asp:GridView ID="GridView1" CssClass="form-control" runat="server" AutoGenerateColumns="False" OnSelectedIndexChanged="GridView1_SelectedIndexChanged"  >
+                           <asp:GridView ID="GridView1" CssClass="form-control" runat="server" AutoGenerateColumns="False" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" OnRowDeleting="GridView1_RowDeleting"  >
                           <Columns>
+                              <asp:TemplateField HeaderText="ITEM NO" Visible="False">
+                                  <ItemTemplate>
+                                      <asp:Label ID="Label7" runat="server" Text='<%# Eval("Item_No") %>'></asp:Label>
+                                  </ItemTemplate>
+                              </asp:TemplateField>
                               <asp:TemplateField HeaderText="ITEM NAME">
                                   <ItemTemplate>
                                       <asp:Label ID="Label1" runat="server" Text='<%# Eval("Pname") %>'></asp:Label>
@@ -215,12 +219,14 @@
                                       <asp:Label ID="Label5" runat="server" Text='<%# Eval("Cgst") %>'></asp:Label>
                                   </ItemTemplate>
                               </asp:TemplateField>
-                              <asp:TemplateField HeaderText="PRICE">
+                              <asp:TemplateField HeaderText="GRAND TOTAL">
                                   <ItemTemplate>
                                       <asp:Label ID="Label6" runat="server" Text='<%# Eval("Price") %>'></asp:Label>
                                   </ItemTemplate>
                               </asp:TemplateField>
-                              
+                              <asp:CommandField ShowDeleteButton="True" DeleteText="DELETE " >
+                              <HeaderStyle Font-Bold="True" ForeColor="#666666" />
+                              </asp:CommandField>
                           </Columns>
                                
                       </asp:GridView>
@@ -327,10 +333,7 @@
                       </div>
 
 
-
-
         
         
     
-
 </asp:Content>
